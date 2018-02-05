@@ -48,7 +48,9 @@ psi_1 = psi + v / Lf * (-delta) * dt
 v_1 = v + a * dt  
 cte = cte - v * sin(epsi) * dt  
 epsi = epsi +  v / Lf * (-delta) * dt  
-  
+
+Concerning the weights I use in the cost function, I found these by trying. I started from no weight at all, the car left the road. I then tried to put more weight on the elements depending on delta, it went way better but still was not able to finish a lap. I doubled the values and it worked :)  
+
 ## Timestep Length and Elapsed Duration (N & dt)
 
 I choosed N = 10 and dt = 0.1. I went for these values because predicting for the next second seemed a good idea to me. I tried to use a higher N but my computer was too slow (so a lower dt is not a possibility for me). I tried with N = 15 and dt = 0.15, the tires left the road from time to time but the car was able to finish a lap.
