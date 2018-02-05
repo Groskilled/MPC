@@ -21,9 +21,7 @@ double dt = 0.1;
 // This is the length from front to CoG that has a similar radius.
 const double Lf = 2.67;
 
-double ref_cte = 0;
-double ref_epsi = 0;
-double ref_v = 35;
+double ref_v = 100;
 
 size_t x_start = 0;
 size_t y_start = x_start + N;
@@ -47,19 +45,19 @@ class FG_eval {
 			fg[0] = 0;
 			for (int i = 0; i < N; i++)
 			{
-				fg[0] += CppAD::pow(vars[cte_start + i] - ref_cte, 2);
-				fg[0] += CppAD::pow(vars[epsi_start + i] - ref_epsi, 2);
-				fg[0] += CppAD::pow(vars[v_start + i] - ref_v, 2);
+				fg[0] += 1000 * CppAD::pow(vars[cte_start + i], 2);
+				fg[0] += 2000 * CppAD::pow(vars[epsi_start + i], 2);
+				fg[0] += 10000 * CppAD::pow(vars[v_start + i] - ref_v, 2);
 			}
 			for (int i = 0; i < N - 1; i++)
 			{
-				fg[0] += CppAD::pow(vars[delta_start + i] - ref_cte, 2);
-				fg[0] += CppAD::pow(vars[a_start + i] - ref_epsi, 2);
+				fg[0] += 5 * CppAD::pow(vars[delta_start + i], 2);
+				fg[0] += 5 * CppAD::pow(vars[a_start + i], 2);
 			}
 			for (int i = 0; i < N - 2; i++)
 			{
-				fg[0] += CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
-				fg[0] += CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
+				fg[0] += 200 * CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
+				fg[0] += 10 * CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
 			}
 
 			fg[1 + x_start] = vars[x_start];
@@ -92,7 +90,7 @@ class FG_eval {
 				AD<double> psides0 = CppAD::atan(3 * coeffs[3] * x0 * x0 + 2 * coeffs[2] * x0 + coeffs[1]);
 
 				fg[2 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
-				fg[2 + y_start + i] = y1 - (y0 + y0 * CppAD::sin(psi0) * dt);
+				fg[2 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
 				fg[2 + psi_start + i] = psi1 - (psi0 - v0 * delta0 / Lf * dt);
 				fg[2 + v_start + i] = v1 - (v0 + a0 * dt);
 				fg[2 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * dt));
@@ -147,8 +145,8 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
 
 	for (int i = delta_start; i < a_start; i++)
 	{
-		vars_lowerbound[i] = -0.436322 * Lf;
-		vars_upperbound[i] = 0.436322 * Lf;
+		vars_lowerbound[i] = -0.4363;
+		vars_upperbound[i] = 0.4363;
 	}
 
 	for (int i = a_start; i < n_vars; i++)
