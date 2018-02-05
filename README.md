@@ -32,10 +32,15 @@ I used a kinematic model.
 
 State:
   x,y -> coordinates of the car
+  
   v -> velocity
+  
   cte -> crosstrack error
+  
   psi -> orientation angle
+  
   epsi -> orientation angle error
+  
 
 Actuator:
   a -> acceleration, between -1 and 1. A negative value means breaking, positive value is accellerating.
