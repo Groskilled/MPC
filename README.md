@@ -27,27 +27,27 @@ Self-Driving Car Engineer Nanodegree Program
 3. Compile: `cmake .. && make`
 4. Run it: `./mpc`.
 
-## Model
-I used a kinematic model.
+## Model  
+I used a kinematic model.  
 
-State:
-x,y -> coordinates of the car
-v -> velocity
-cte -> crosstrack error
-psi -> orientation angle
-epsi -> orientation angle error
+State:  
+x,y -> coordinates of the car  
+v -> velocity  
+cte -> crosstrack error  
+psi -> orientation angle  
+epsi -> orientation angle error  
 
-Actuator:
-a -> acceleration, between -1 and 1. A negative value means breaking, positive value is accellerating.
-delta -> steering angle, between -25 and 25.
+Actuator:  
+a -> acceleration, between -1 and 1. A negative value means breaking, positive value is accellerating.  
+delta -> steering angle, between -25 and 25.  
 
-Equations:
-px_1 = px + v * cos(psi) * dt
-py_1 = py + v * sin(psi) ( dt)
-psi_1 = psi + v / Lf * (-delta) * dt
-v_1 = v + a * dt
-cte = cte - v * sin(epsi) * dt
-epsi = epsi +  v / Lf * (-delta) * dt
+Equations:  
+px_1 = px + v * cos(psi) * dt  
+py_1 = py + v * sin(psi) ( dt)  
+psi_1 = psi + v / Lf * (-delta) * dt  
+v_1 = v + a * dt  
+cte = cte - v * sin(epsi) * dt  
+epsi = epsi +  v / Lf * (-delta) * dt  
   
 ## Timestep Length and Elapsed Duration (N & dt)
 
